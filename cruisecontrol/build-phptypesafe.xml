@@ -1,0 +1,13 @@
+<project name="build-phptypesafe" default="build" basedir="checkout/phptypesafe">
+    <target name="build">
+
+        <!-- Get the latest from Subversion -->
+        <exec executable="svn" dir="${basedir}">
+            <arg line="up" />
+        </exec>
+
+        <!-- Call the target that does everything -->
+        <ant antfile="build.xml" target="build" />
+
+    </target>
+</project>

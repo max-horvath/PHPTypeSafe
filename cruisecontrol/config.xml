@@ -1,0 +1,36 @@
+<cruisecontrol>
+
+    <project name="phptypesafe" buildafterfailed="false">
+        <plugin name="svn" classname="net.sourceforge.cruisecontrol.sourcecontrols.SVN" />
+
+        <listeners>
+            <currentbuildstatuslistener file="logs/${project.name}/status.txt" />
+        </listeners>
+
+        <modificationset quietperiod="60">
+            <svn localWorkingCopy="checkout/${project.name}" />
+        </modificationset>
+
+        <schedule interval="120">
+            <ant anthome="/usr/share/ant"
+                 buildfile="build-phptypesafe.xml"
+                 target="build"
+                 uselogger="true"
+                 usedebug="false" />
+        </schedule>
+
+        <log logdir="logs/${project.name}">
+            <merge dir="checkout/${project.name}/build/logs" />
+        </log>
+
+        <publishers>
+            <currentbuildstatuspublisher file="logs/${project.name}/buildstatus.txt" />
+
+            <artifactspublisher dir="checkout/${project.name}/build/api" dest="artifacts/${project.name}" subdirectory="api" />
+            <artifactspublisher dir="checkout/${project.name}/build/coverage" dest="artifacts/${project.name}" subdirectory="coverage "/>
+
+            <execute command="/usr/local/src/phpUnderControl/bin/phpuc.php graph logs/${project.name} artifacts/${project.name}" />
+        </publishers>
+    </project>
+
+</cruisecontrol>
