@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="PHPTypeSafe" default="build" basedir=".">
+    <!-- <property name="phar.name" value="com.maxhorvath.phptypesafe" /> -->
+    <!-- <property name="base.assembly.dir" value ="src/assembly" /> -->
+    <property name="base.src.dir" value ="src/main/php" />
+    <property name="base.src.test.dir" value ="src/test/php/com/maxhorvath/phptypesafe" />
+    <property name="build.dir" value="build" />
+    <property name="build.apidoc.dir" value="${build.dir}/api" />
+    <property name="build.logs.dir" value="${build.dir}/logs" />
+    <property name="build.coverage.dir" value="${build.dir}/coverage" />
+    <property name="target.dir" value="bin" />
+
+    <target name="clean" description="Cleaning target folder ...">
+        <echo>Cleaning target folder ...</echo>
+
+        <delete dir="${build.dir}" failonerror="false" quiet="true" />
+        <delete dir="${target.dir}" failonerror="false" quiet="true" />
+
+        <echo>Done.</echo>
+    </target>
+
+    <target name="makebuild" depends="clean" description="Making build folder ...">
+        <echo>Making build folder ...</echo>
+
+        <mkdir dir="${build.dir}" />
+        <mkdir dir="${build.apidoc.dir}" />
+        <mkdir dir="${build.logs.dir}" />
+        <mkdir dir="${build.coverage.dir}" />
+
+        <echo>Done.</echo>
+    </target>
+
+    <target name="maketarget" depends="clean" description="Making target folder ...">
+        <echo>Making target folder ...</echo>
+
+        <mkdir dir="${target.dir}" />
+
+        <echo>Done.</echo>
+    </target>
+
+    <target name="unittests" depends="clean" description="Running Unit Tests ...">
+        <echo>Running Unit Tests ...</echo>
+
+        <!--
+        <exec executable="phpunit" dir="${base.src.test.dir}" failonerror="true">
+            <arg line="- -log-xml ${build.logs.dir}/phpunit.xml
+                       AllTests tests/AllTests.php" />
+        </exec>
+        -->
+
+        <echo>Done.</echo>
+    </target>
+
+    <target name="codeanalysis" depends="makebuild" description="Running static code analysis ...">
+        <echo>Running static code analysis ...</echo>
+
+        <!--
+        <exec executable="phpunit" dir="${base.src.test.dir}" failonerror="true">
+            <arg line="- -log-pmd ${build.logs.dir}/phpunit.pmd.xml
+                       - -log-metrics ${build.logs.dir}/phpunit.metrics.xml
+                       - -coverage-xml ${build.logs.dir}/phpunit.coverage.xml
+                       - -coverage-html ${build.coverage.dir}
+                       AllTests AllTests.php" />
+        </exec>
+        -->
+
+        <echo>Done.</echo>
+    </target>
+
+    <target name="codesniffer" depends="makebuild" description="Analysing source for Coding Standards ...">
+        <echo>Analysing source for Coding Standards ...</echo>
+
+        <!--
+        <exec executable="phpcs" dir="${base.src.dir}" output="${build.logs.dir}/checkstyle.xml" failonerror="true">
+            <arg line="- -report=checkstyle
+                       - -standard=Zend
+                       ${base.src.dir}" />
+        </exec>
+        -->
+
+        <echo>Done.</echo>
+    </target>
+
+    <target name="apidoc" depends="makebuild" description="Generating API Documentation ...">
+        <echo>Generating API Documentation ...</echo>
+
+        <!--
+        <exec executable="phpdoc" dir="${base.src.dir}" failonerror="true">
+            <arg line="-ct type
+                       -ue on
+                       -t ${build.apidoc.dir}
+                       -tb /PATH/TO/YOUR/PHPUC/DATA/phpdoc
+                       -o HTML:Phpuc:phpuc
+                       -d ${base.src.dir}" />
+        </exec>
+        -->
+
+        <echo>Done.</echo>
+    </target>
+
+    <target name="build" depends="unittests" description="Compiling sources ...">
+        <echo>Compiling sources ...</echo>
+
+        <!--
+        <exec executable="php" dir="${base.assembly.dir}" failonerror="true">
+            <arg line="assembly.php ../../${target.dir}/${phar.name}.phar" />
+        </exec>
+        -->
+
+        <echo>Done.</echo>
+    </target>
+
+    <target name="build-phpuc" depends="build,codeanalysis,codesniffer,apidoc" description="Building in phpUnderControl">
+        <echo>Done.</echo>
+    </target>
+</project>

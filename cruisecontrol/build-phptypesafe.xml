@@ -7,7 +7,7 @@
         </exec>
 
         <!-- Call the target that does everything -->
-        <ant antfile="build.xml" target="build" />
+        <ant antfile="build.xml" target="build-phpuc" />
 
     </target>
 </project>
