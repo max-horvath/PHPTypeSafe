@@ -1,0 +1,24 @@
+This file contains a list of requirements for PHPTypeSafe.
+
+There are two different types of requirements:
+
+a) Requirements to use the PHPTypeSafe library.
+b) Requirements to build the PHPTypeSafe library from source.
+
+================================================================================
+REQUIREMENTS TO USE THE PHPTYPESAFE LIBRARY
+================================================================================
+
+* PHP 5.3 or higher.
+* PHP needs to be compiled with Phar support.
+
+================================================================================
+REQUIREMENTS TO BUILD THE PHPTYPESAFE LIBRARY FROM SOURCE
+================================================================================
+
+* PHP 5.3 or higher.
+* PHP needs to be compiled with Phar support.
+* Apache Ant 1.7 to execute the build.xml files (Phing might(!) work, too).
+* PHPUnit 3.3 or higher to execute Unit Tests and static code analysis.
+* PHP_CodeSniffer 1.1 or higher to execute Coding Standards analysis.
+* PhpDocumentor 1.4 and higher to generate API documentation.
