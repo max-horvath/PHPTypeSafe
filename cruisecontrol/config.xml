@@ -27,7 +27,7 @@
             <currentbuildstatuspublisher file="logs/${project.name}/buildstatus.txt" />
 
             <artifactspublisher dir="checkout/${project.name}/build/api" dest="artifacts/${project.name}" subdirectory="api" />
-            <artifactspublisher dir="checkout/${project.name}/build/coverage" dest="artifacts/${project.name}" subdirectory="coverage "/>
+            <artifactspublisher dir="checkout/${project.name}/build/coverage" dest="artifacts/${project.name}" subdirectory="coverage" />
 
             <execute command="/usr/local/src/phpUnderControl/bin/phpuc.php graph logs/${project.name} artifacts/${project.name}" />
         </publishers>
