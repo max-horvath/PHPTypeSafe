@@ -1,4 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  PHPTypeSafe
+
+  Copyright (C) 2008  Max Horvath <info@maxhorvath.com>.
+
+  This file is part of PHPTypeSafe.
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU Lesser General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
 <project name="PHPTypeSafe" default="build" basedir=".">
     <!-- <property name="phar.name" value="com.maxhorvath.phptypesafe" /> -->
     <!-- <property name="base.assembly.dir" value ="src/assembly" /> -->
@@ -8,6 +30,9 @@
     <property name="build.apidoc.dir" value="${build.dir}/api" />
     <property name="build.logs.dir" value="${build.dir}/logs" />
     <property name="build.coverage.dir" value="${build.dir}/coverage" />
+    <property name="lib.dir" value="lib" />
+    <property name="lib.phpuc.dir" value="${lib.dir}/phpUnderControl" />
+    <property name="lib.phpuc.phpdoc.dir" value="${lib.phpuc.dir}/data/phpdoc" />
     <property name="target.dir" value="bin" />
 
     <target name="clean" description="Cleaning target folder ...">
@@ -41,12 +66,9 @@
     <target name="unittests" depends="clean" description="Running Unit Tests ...">
         <echo>Running Unit Tests ...</echo>
 
-        <!--
         <exec executable="phpunit" dir="${base.src.test.dir}" failonerror="true">
-            <arg line="- -log-xml ${build.logs.dir}/phpunit.xml
-                       AllTests tests/AllTests.php" />
+            <arg line="." />
         </exec>
-        -->
 
         <echo>Done.</echo>
     </target>
@@ -54,15 +76,14 @@
     <target name="codeanalysis" depends="makebuild" description="Running static code analysis ...">
         <echo>Running static code analysis ...</echo>
 
-        <!--
-        <exec executable="phpunit" dir="${base.src.test.dir}" failonerror="true">
-            <arg line="- -log-pmd ${build.logs.dir}/phpunit.pmd.xml
-                       - -log-metrics ${build.logs.dir}/phpunit.metrics.xml
-                       - -coverage-xml ${build.logs.dir}/phpunit.coverage.xml
-                       - -coverage-html ${build.coverage.dir}
-                       AllTests AllTests.php" />
+        <exec executable="phpunit" dir="${base.src.test.dir}" failonerror="false">
+            <arg line="--log-xml ../../../../../../${build.logs.dir}/phpunit.xml
+                       --log-pmd ../../../../../../${build.logs.dir}/phpunit.pmd.xml
+                       --log-metrics ../../../../../../${build.logs.dir}/phpunit.metrics.xml
+                       --coverage-xml ../../../../../../${build.logs.dir}/phpunit.coverage.xml
+                       --coverage-html ../../../../../../${build.coverage.dir}
+                       ." />
         </exec>
-        -->
 
         <echo>Done.</echo>
     </target>
@@ -70,13 +91,11 @@
     <target name="codesniffer" depends="makebuild" description="Analysing source for Coding Standards ...">
         <echo>Analysing source for Coding Standards ...</echo>
 
-        <!--
-        <exec executable="phpcs" dir="${base.src.dir}" output="${build.logs.dir}/checkstyle.xml" failonerror="true">
-            <arg line="- -report=checkstyle
-                       - -standard=Zend
-                       ${base.src.dir}" />
+        <exec executable="phpcs" dir="${base.src.dir}" output="${build.logs.dir}/checkstyle.xml" failonerror="false">
+            <arg line="--report=checkstyle
+                       --standard=Zend
+                       ." />
         </exec>
-        -->
 
         <echo>Done.</echo>
     </target>
@@ -84,16 +103,14 @@
     <target name="apidoc" depends="makebuild" description="Generating API Documentation ...">
         <echo>Generating API Documentation ...</echo>
 
-        <!--
-        <exec executable="phpdoc" dir="${base.src.dir}" failonerror="true">
+        <exec executable="phpdoc" dir="${base.src.dir}" failonerror="false">
             <arg line="-ct type
                        -ue on
-                       -t ${build.apidoc.dir}
-                       -tb /PATH/TO/YOUR/PHPUC/DATA/phpdoc
+                       -t ../../../${build.apidoc.dir}
+                       -tb ../../../${lib.phpuc.phpdoc.dir}
                        -o HTML:Phpuc:phpuc
-                       -d ${base.src.dir}" />
+                       -d ." />
         </exec>
-        -->
 
         <echo>Done.</echo>
     </target>
@@ -110,7 +127,7 @@
         <echo>Done.</echo>
     </target>
 
-    <target name="build-phpuc" depends="build,codeanalysis,codesniffer,apidoc" description="Building in phpUnderControl">
+    <target name="build-phpuc" depends="codeanalysis,codesniffer,apidoc,build" description="Building in phpUnderControl">
         <echo>Done.</echo>
     </target>
 </project>
