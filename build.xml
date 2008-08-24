@@ -22,7 +22,6 @@
 -->
 
 <project name="PHPTypeSafe" default="build" basedir=".">
-    <!-- <property name="base.assembly.dir" value ="src/assembly" /> -->
     <property name="package.name" value="com.maxhorvath.phptypesafe" />
     <property name="base.src.dir" value ="src/main/php" />
     <property name="base.src.test.dir" value ="src/test/php/com/maxhorvath/phptypesafe" />
@@ -30,6 +29,7 @@
     <property name="build.apidoc.dir" value="${build.dir}/api" />
     <property name="build.logs.dir" value="${build.dir}/logs" />
     <property name="build.coverage.dir" value="${build.dir}/coverage" />
+    <property name="base.assembly.dir" value ="src/assembly" />
     <property name="lib.dir" value="lib" />
     <property name="lib.phpuc.dir" value="${lib.dir}/phpUnderControl" />
     <property name="lib.phpuc.phpdoc.dir" value="${lib.phpuc.dir}/data/phpdoc" />
@@ -138,11 +138,9 @@
     <target name="build" depends="unittests,maketarget" description="Compiling sources ...">
         <echo>Compiling sources ...</echo>
 
-        <!--
         <exec executable="php" dir="${base.assembly.dir}" failonerror="true">
-            <arg line="assembly.php ../../${target.dir}/${phar.name}.phar" />
+            <arg line="assembly.php ../../${target.dir}/${package.name}.phar" />
         </exec>
-        -->
 
         <echo>Done.</echo>
     </target>
