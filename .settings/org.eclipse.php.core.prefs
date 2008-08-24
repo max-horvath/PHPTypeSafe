@@ -1,0 +1,9 @@
+#Sat Aug 23 23:01:35 GMT+01:00 2008
+eclipse.preferences.version=1
+org.eclipse.php.core.phpForamtterIndentationSize=4
+org.eclipse.php.core.phpForamtterUseTabs=false
+org.eclipse.php.core.taskCaseSensitive=enabled
+org.eclipse.php.core.taskPriorities=NORMAL
+org.eclipse.php.core.taskTags=@todo
+phpVersion=php5
+use_asp_tags_as_php=false

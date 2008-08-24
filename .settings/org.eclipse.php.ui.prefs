@@ -1,0 +1,5 @@
+#Sat Aug 23 23:01:35 GMT+01:00 2008
+cleanup.remove_trailing_whitespaces=true
+cleanup.remove_trailing_whitespaces_all=true
+cleanup.remove_trailing_whitespaces_ignore_empty=false
+eclipse.preferences.version=1
