@@ -22,8 +22,8 @@
 -->
 
 <project name="PHPTypeSafe" default="build" basedir=".">
-    <!-- <property name="phar.name" value="com.maxhorvath.phptypesafe" /> -->
     <!-- <property name="base.assembly.dir" value ="src/assembly" /> -->
+    <property name="package.name" value="com.maxhorvath.phptypesafe" />
     <property name="base.src.dir" value ="src/main/php" />
     <property name="base.src.test.dir" value ="src/test/php/com/maxhorvath/phptypesafe" />
     <property name="build.dir" value="build" />
@@ -135,7 +135,7 @@
         <echo>Done.</echo>
     </target>
 
-    <target name="build" depends="unittests" description="Compiling sources ...">
+    <target name="build" depends="unittests,maketarget" description="Compiling sources ...">
         <echo>Compiling sources ...</echo>
 
         <!--
@@ -147,7 +147,21 @@
         <echo>Done.</echo>
     </target>
 
+    <target name="build-apidoc" depends="apidoc,maketarget" description="Compiling distribution of API documentation ...">
+        <echo>Compiling distribution of API documentation ...</echo>
+
+        <tar destfile="${target.dir}/${package.name}-apidoc.tar.gz"
+             basedir="${build.apidoc.dir}"
+             longfile="gnu" compression="gzip" />
+
+        <echo>Done.</echo>
+    </target>
+
     <target name="build-phpuc" depends="codeanalysis,codesniffer,apidoc-phpuc,build" description="Building in phpUnderControl">
+        <echo>Done.</echo>
+    </target>
+
+    <target name="dist" depends="build,build-apidoc" description="Building distribution">
         <echo>Done.</echo>
     </target>
 </project>
