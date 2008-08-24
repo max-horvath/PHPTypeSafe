@@ -75,7 +75,9 @@ final class PHPTypeSafe
      */
     final public function __clone()
     {
-        throw new RuntimeException('You cannot clone PHPTypeSafe (singleton object).');
+        throw new RuntimeException(
+            'You cannot clone PHPTypeSafe (singleton object).'
+        );
     }
 
     /**
