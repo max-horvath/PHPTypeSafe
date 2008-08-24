@@ -106,6 +106,26 @@
         <exec executable="phpdoc" dir="${base.src.dir}" failonerror="false">
             <arg line="-ct type
                        -ue on
+                       -pp on
+                       -dc PHP
+                       -s on
+                       -t ../../../${build.apidoc.dir}
+                       -o HTML:frames:default
+                       -d ." />
+        </exec>
+
+        <echo>Done.</echo>
+    </target>
+
+    <target name="apidoc-phpuc" depends="makebuild" description="Generating API Documentation for phpUnderControl ...">
+        <echo>Generating API Documentation ...</echo>
+
+        <exec executable="phpdoc" dir="${base.src.dir}" failonerror="false">
+            <arg line="-ct type
+                       -ue on
+                       -pp on
+                       -dc PHP
+                       -s on
                        -t ../../../${build.apidoc.dir}
                        -tb ../../../${lib.phpuc.phpdoc.dir}
                        -o HTML:Phpuc:phpuc
@@ -127,7 +147,7 @@
         <echo>Done.</echo>
     </target>
 
-    <target name="build-phpuc" depends="codeanalysis,codesniffer,apidoc,build" description="Building in phpUnderControl">
+    <target name="build-phpuc" depends="codeanalysis,codesniffer,apidoc-phpuc,build" description="Building in phpUnderControl">
         <echo>Done.</echo>
     </target>
 </project>

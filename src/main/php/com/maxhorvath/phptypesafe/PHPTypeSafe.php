@@ -67,7 +67,7 @@ final class PHPTypeSafe
      *
      * @return void
      *
-     * @throws RuntimeException If singleton is tried to be cloned.
+     * @throws RuntimeException if singleton is tried to be cloned.
      *
      * @final
      * @access public
