@@ -46,6 +46,7 @@ require_once '../../../../../main/php/com/maxhorvath/phptypesafe/PHPTypeSafe.php
  *
  * @category   PHP
  * @package    com::maxhorvath::phptypesafe
+ * @subpackage test
  * @author     Max Horvath <info@maxhorvath.com>
  * @copyright  2008 Max Horvath <info@maxhorvath.com>
  * @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU Lesser General Public Licence Version 3
@@ -59,9 +60,6 @@ class PHPTypeSafeTest extends ::PHPUnit_Framework_TestCase
      * Tests if PHPTypeSafe is a singleton.
      *
      * @return void
-     *
-     * @covers PHPTypeSafe::setup()
-     * @covers PHPTypeSafe::getInstance()
      *
      * @access public
      * @since  Method available since release 1.0.0
@@ -79,9 +77,6 @@ class PHPTypeSafeTest extends ::PHPUnit_Framework_TestCase
      *
      * @return void
      *
-     * @covers PHPTypeSafe::getInstance()
-     * @covers PHPTypeSafe::__clone()
-     *
      * @access public
      * @since  Method available since release 1.0.0
      */
@@ -91,5 +86,128 @@ class PHPTypeSafeTest extends ::PHPUnit_Framework_TestCase
 
         $singleton = PHPTypeSafe::getInstance();
         $clone = clone $singleton;
+    }
+
+    /**
+     * Tests if isTypeSafeClass detects type hints of PHPTypeSafe.
+     *
+     * @return void
+     *
+     * @access public
+     * @since  Method available since release 1.0.0
+     */
+    public function testIsTypeSafeClassSuccess()
+    {
+        $_classes = array(__NAMESPACE__ . '::matcher::Bool',
+                          __NAMESPACE__ . '::matcher::Callable',
+                          __NAMESPACE__ . '::matcher::Float',
+                          __NAMESPACE__ . '::matcher::Int',
+                          __NAMESPACE__ . '::matcher::Resource',
+                          __NAMESPACE__ . '::matcher::String',
+                         );
+
+        foreach ($_classes as $_element) {
+            $this->assertTrue(PHPTypeSafe::getInstance()->isTypeSafeClass($_element));
+        }
+    }
+
+    /**
+     * Tests if isTypeSafeClass declines non-existing type hints of PHPTypeSafe.
+     *
+     * @return void
+     *
+     * @access public
+     * @since  Method available since release 1.0.0
+     */
+    public function testIsTypeSafeClassDeclineNonExistingClass()
+    {
+        $this->assertFalse(PHPTypeSafe::getInstance()->isTypeSafeClass(__NAMESPACE__ . '::matcher::TestClass'));
+    }
+
+    /**
+     * Tests if isTypeSafeClass declines existing type hints not part of
+     * PHPTypeSafe.
+     *
+     * @return void
+     *
+     * @access public
+     * @since  Method available since release 1.0.0
+     */
+    public function testIsTypeSafeClassDeclineNonTypeSafeClass()
+    {
+        $this->assertFalse(PHPTypeSafe::getInstance()->isTypeSafeClass(__NAMESPACE__ . '::matcher::IMatcher'));
+    }
+
+    /**
+     * Tests if solveTypeHintFailure solves type hints of PHPTypeSafe.
+     *
+     * @return void
+     *
+     * @access public
+     * @since  Method available since release 1.0.0
+     */
+    public function testSolveTypeHintFailureSuccess()
+    {
+        $_classes = array(array('typehint' => 'bool',
+                                'value' => true),
+                          array('typehint' => 'callable',
+                                'value' => 'printf'),
+                          array('typehint' => 'float',
+                                'value' => 12.34),
+                          array('typehint' => 'int',
+                                'value' => 123),
+                          array('typehint' => 'resource',
+                                'value' => fopen('ErrorHandlerTest.php', 'r')),
+                          array('typehint' => 'string',
+                                'value' => 'Test'),
+                         );
+
+        foreach ($_classes as $_element) {
+            $this->assertTrue(PHPTypeSafe::getInstance()
+                                         ->solveTypeHintFailure($_element['typehint'], $_element['value']));
+        }
+    }
+
+    /**
+     * Tests if solveTypeHintFailure solves failing type hints of PHPTypeSafe.
+     *
+     * @return void
+     *
+     * @access public
+     * @since  Method available since release 1.0.0
+     */
+    public function testSolveTypeHintFailureFails()
+    {
+        $_classes = array(array('typehint' => 'bool',
+                                'value' => 123),
+                          array('typehint' => 'callable',
+                                'value' => 123),
+                          array('typehint' => 'float',
+                                'value' => 'Test'),
+                          array('typehint' => 'int',
+                                'value' => 'Test'),
+                          array('typehint' => 'resource',
+                                'value' => 123),
+                          array('typehint' => 'string',
+                                'value' => 123),
+                         );
+
+        foreach ($_classes as $_element) {
+            $this->assertFalse(PHPTypeSafe::getInstance()
+                                          ->solveTypeHintFailure($_element['typehint'], $_element['value']));
+        }
+    }
+
+    /**
+     * Tests if solveTypeHintFailure declines illegal call.
+     *
+     * @return void
+     *
+     * @access public
+     * @since  Method available since release 1.0.0
+     */
+    public function testSolveTypeHintFailureFailsOnIllegalTypeHint()
+    {
+        $this->assertFalse(PHPTypeSafe::getInstance()->solveTypeHintFailure('Test', 'Test'));
     }
 }

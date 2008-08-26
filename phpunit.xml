@@ -23,16 +23,8 @@
   SVN: $Id$
 -->
 
-<project name="build-phptypesafe" default="build" basedir="checkout/phptypesafe">
-    <target name="build">
-
-        <!-- Get the latest from Subversion -->
-        <exec executable="svn" dir="${basedir}">
-            <arg line="up" />
-        </exec>
-
-        <!-- Call the target that does everything -->
-        <ant antfile="build.xml" target="build-phpuc" />
-
-    </target>
-</project>
+<phpunit ansi="false" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" stopOnFailure="false">
+    <testsuite name="PHPTypeSafe">
+        <directory suffix="Test.php">.</directory>
+    </testsuite>
+</phpunit>

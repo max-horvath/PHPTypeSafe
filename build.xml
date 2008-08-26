@@ -19,6 +19,8 @@
 
   You should have received a copy of the GNU Lesser General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+  SVN: $Id$
 -->
 
 <project name="PHPTypeSafe" default="build" basedir=".">
@@ -67,7 +69,8 @@
         <echo>Running Unit Tests ...</echo>
 
         <exec executable="phpunit" dir="${base.src.test.dir}" failonerror="true">
-            <arg line="." />
+            <arg line="--configuration ../../../../../../phpunit.xml
+                       --coverage-html ../../../../../../${build.coverage.dir}" />
         </exec>
 
         <echo>Done.</echo>
@@ -77,24 +80,36 @@
         <echo>Running static code analysis ...</echo>
 
         <exec executable="phpunit" dir="${base.src.test.dir}" failonerror="false">
-            <arg line="--log-xml ../../../../../../${build.logs.dir}/phpunit.xml
+            <arg line="--configuration ../../../../../../phpunit.xml
+                       --log-xml ../../../../../../${build.logs.dir}/phpunit.xml
                        --log-pmd ../../../../../../${build.logs.dir}/phpunit.pmd.xml
                        --log-metrics ../../../../../../${build.logs.dir}/phpunit.metrics.xml
-                       --coverage-xml ../../../../../../${build.logs.dir}/phpunit.coverage.xml
-                       --coverage-html ../../../../../../${build.coverage.dir}
-                       ." />
+                       --coverage-xml ../../../../../../${build.logs.dir}/phpunit.coverage.xml" />
         </exec>
 
         <echo>Done.</echo>
     </target>
 
-    <target name="codesniffer" depends="makebuild" description="Analysing source for Coding Standards ...">
-        <echo>Analysing source for Coding Standards ...</echo>
+    <target name="codesniffer" depends="makebuild" description="Analysing source for violations of Coding Conventions ...">
+        <echo>Analysing source for violations of Coding Conventions ...</echo>
 
-        <exec executable="phpcs" dir="${base.src.dir}" output="${build.logs.dir}/checkstyle.xml" failonerror="false">
-            <arg line="--report=checkstyle
+        <exec executable="phpcs" output="${build.logs.dir}/checkstyle.xml" failonerror="false">
+            <arg line="-n
+                       --report=checkstyle
                        --standard=Zend
-                       ." />
+                       ${base.src.dir} ${base.src.test.dir}" />
+        </exec>
+
+        <echo>Done.</echo>
+    </target>
+
+    <target name="codingconventions" description="Analysing source for violations of Coding Conventions ...">
+        <echo>Analysing source for violations of Coding Conventions ...</echo>
+
+        <exec executable="phpcs" failonerror="true">
+            <arg line="-n
+                       --standard=Zend
+                       ${base.src.dir} ${base.src.test.dir}" />
         </exec>
 
         <echo>Done.</echo>
