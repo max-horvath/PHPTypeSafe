@@ -69,7 +69,7 @@ final class TypeHintTestClass
      * @access public
      * @since  Method available since release 1.0.0
      */
-    final public static function initiateTypeHintError(bool $triggerError)
+    final public static function initiateTypeHintError(boolean $triggerError)
     {
         return true;
     }
