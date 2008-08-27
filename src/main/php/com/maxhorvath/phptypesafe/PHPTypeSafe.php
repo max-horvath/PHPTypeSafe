@@ -40,6 +40,7 @@ namespace com::maxhorvath::phptypesafe;
  */
 require_once 'ErrorHandler.php';
 require_once 'matcher/Bool.php';
+require_once 'matcher/Boolean.php';
 require_once 'matcher/Callable.php';
 require_once 'matcher/Float.php';
 require_once 'matcher/Int.php';

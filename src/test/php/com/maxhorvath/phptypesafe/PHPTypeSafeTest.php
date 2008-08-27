@@ -150,6 +150,8 @@ class PHPTypeSafeTest extends ::PHPUnit_Framework_TestCase
     {
         $_classes = array(array('typehint' => 'bool',
                                 'value' => true),
+                          array('typehint' => 'boolean',
+                                'value' => false),
                           array('typehint' => 'callable',
                                 'value' => 'printf'),
                           array('typehint' => 'float',
@@ -179,6 +181,8 @@ class PHPTypeSafeTest extends ::PHPUnit_Framework_TestCase
     public function testSolveTypeHintFailureFails()
     {
         $_classes = array(array('typehint' => 'bool',
+                                'value' => 123),
+                          array('typehint' => 'boolean',
                                 'value' => 123),
                           array('typehint' => 'callable',
                                 'value' => 123),
