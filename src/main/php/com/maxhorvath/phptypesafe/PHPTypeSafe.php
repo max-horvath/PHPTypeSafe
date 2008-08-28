@@ -41,9 +41,13 @@ namespace com::maxhorvath::phptypesafe;
 require_once 'ErrorHandler.php';
 require_once 'matcher/Bool.php';
 require_once 'matcher/Boolean.php';
-require_once 'matcher/Callable.php';
+require_once 'matcher/Double.php';
 require_once 'matcher/Float.php';
 require_once 'matcher/Int.php';
+require_once 'matcher/Integer.php';
+require_once 'matcher/Long.php';
+require_once 'matcher/Object.php';
+require_once 'matcher/Real.php';
 require_once 'matcher/Resource.php';
 require_once 'matcher/String.php';
 

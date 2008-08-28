@@ -36,12 +36,12 @@
 namespace com::maxhorvath::phptypesafe::matcher;
 
 require_once 'IMatcher.php';
-require_once 'Bool.php';
+require_once 'Float.php';
 
 /**
- * Class for values that are native bool.
+ * Class for values that are native float.
  *
- * Alias for class Bool.
+ * Alias for class Float.
  *
  * @final
  * @category   PHP
@@ -53,7 +53,7 @@ require_once 'Bool.php';
  * @link       http://www.maxhorvath.com/
  * @since      Class available since release 1.0.0
  */
-final class Boolean implements IMatcher
+final class Double implements IMatcher
 {
     // @codeCoverageIgnoreStart
     /**
@@ -87,6 +87,6 @@ final class Boolean implements IMatcher
      */
     final public static function isTypeSafe($value)
     {
-        return Bool::isTypeSafe($value);
+        return Float::isTypeSafe($value);
     }
 }

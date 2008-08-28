@@ -36,9 +36,12 @@
 namespace com::maxhorvath::phptypesafe::matcher;
 
 require_once 'IMatcher.php';
+require_once 'Int.php';
 
 /**
- * Class for values that are callable.
+ * Class for values that are native int.
+ *
+ * Alias for class Int.
  *
  * @final
  * @category   PHP
@@ -50,7 +53,7 @@ require_once 'IMatcher.php';
  * @link       http://www.maxhorvath.com/
  * @since      Class available since release 1.0.0
  */
-final class Callable implements IMatcher
+final class Integer implements IMatcher
 {
     // @codeCoverageIgnoreStart
     /**
@@ -84,6 +87,6 @@ final class Callable implements IMatcher
      */
     final public static function isTypeSafe($value)
     {
-        return is_callable($value);
+        return Int::isTypeSafe($value);
     }
 }

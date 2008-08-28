@@ -36,12 +36,9 @@
 namespace com::maxhorvath::phptypesafe::matcher;
 
 require_once 'IMatcher.php';
-require_once 'Bool.php';
 
 /**
- * Class for values that are native bool.
- *
- * Alias for class Bool.
+ * Class for values that are objects.
  *
  * @final
  * @category   PHP
@@ -53,7 +50,7 @@ require_once 'Bool.php';
  * @link       http://www.maxhorvath.com/
  * @since      Class available since release 1.0.0
  */
-final class Boolean implements IMatcher
+final class Object implements IMatcher
 {
     // @codeCoverageIgnoreStart
     /**
@@ -87,6 +84,6 @@ final class Boolean implements IMatcher
      */
     final public static function isTypeSafe($value)
     {
-        return Bool::isTypeSafe($value);
+        return is_object($value);
     }
 }
