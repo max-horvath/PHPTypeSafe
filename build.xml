@@ -36,6 +36,8 @@
     <property name="lib.phpuc.dir" value="${lib.dir}/phpUnderControl" />
     <property name="lib.phpuc.phpdoc.dir" value="${lib.phpuc.dir}/data/phpdoc" />
     <property name="target.dir" value="bin" />
+    <property name="target.dist.dir" value="${target.dir}/dist" />
+    <property name="target.dist.extras.dir" value="${target.dist.dir}/extras" />
 
     <target name="clean" description="Cleaning target folder ...">
         <echo>Cleaning target folder ...</echo>
@@ -61,6 +63,15 @@
         <echo>Making target folder ...</echo>
 
         <mkdir dir="${target.dir}" />
+
+        <echo>Done.</echo>
+    </target>
+
+    <target name="makedisttarget" depends="maketarget" description="Making distribution target folder ...">
+        <echo>Making distribution target folder ...</echo>
+
+        <mkdir dir="${target.dist.dir}" />
+        <mkdir dir="${target.dist.extras.dir}" />
 
         <echo>Done.</echo>
     </target>
@@ -160,21 +171,65 @@
         <echo>Done.</echo>
     </target>
 
-    <target name="build-apidoc" depends="apidoc,maketarget" description="Compiling distribution of API documentation ...">
+    <target name="build-apidoc" depends="apidoc,makedisttarget" description="Compiling distribution of API documentation ...">
         <echo>Compiling distribution of API documentation ...</echo>
 
-        <tar destfile="${target.dir}/${package.name}-apidoc.tar.gz"
+        <tar destfile="${target.dist.extras.dir}/${package.name}-apidoc.tar.gz"
              basedir="${build.apidoc.dir}"
              longfile="gnu" compression="gzip" />
 
         <echo>Done.</echo>
     </target>
 
-    <target name="build-phpuc" depends="codeanalysis,codesniffer,apidoc-phpuc,build" description="Building in phpUnderControl">
+    <target name="build-testreport" depends="unittests,makedisttarget" description="Compiling distribution of Code Coverage Report ...">
+        <echo>Compiling distribution of Code Coverage Report ...</echo>
+
+        <tar destfile="${target.dist.extras.dir}/${package.name}-testreport.tar.gz"
+             basedir="${build.coverage.dir}"
+             longfile="gnu" compression="gzip" />
+
         <echo>Done.</echo>
     </target>
 
-    <target name="dist" depends="build,build-apidoc" description="Building distribution">
+    <target name="build-phpuc" depends="codeanalysis,codesniffer,apidoc-phpuc,build" description="Building in phpUnderControl ...">
+        <echo>Done.</echo>
+    </target>
+
+    <target name="dist" depends="build,build-apidoc,build-testreport" description="Building distribution ...">
+        <echo>Building distribution ...</echo>
+
+        <tar destfile="${target.dist.dir}/${package.name}.tar.gz" longfile="gnu" compression="gzip">
+            <tarfileset dir="${target.dir}">
+                <include name="${package.name}.phar"/>
+            </tarfileset>
+            <tarfileset dir=".">
+                <include name="CHANGELOG"/>
+                <include name="COPYING"/>
+                <include name="COPYING.LESSER"/>
+                <include name="CREDITS"/>
+                <include name="LICENSE"/>
+                <include name="REQUIREMENTS"/>
+            </tarfileset>
+        </tar>
+
+        <tar destfile="${target.dist.dir}/${package.name}-full.tar.gz" longfile="gnu" compression="gzip">
+            <tarfileset>
+                <gzipresource>
+                    <file file="${target.dist.dir}/${package.name}.tar.gz" />
+                </gzipresource>
+            </tarfileset>
+            <tarfileset prefix="apidoc">
+                <gzipresource>
+                    <file file="${target.dist.extras.dir}/${package.name}-apidoc.tar.gz" />
+                </gzipresource>
+            </tarfileset>
+            <tarfileset prefix="testreport">
+                <gzipresource>
+                    <file file="${target.dist.extras.dir}/${package.name}-testreport.tar.gz" />
+                </gzipresource>
+            </tarfileset>
+        </tar>
+
         <echo>Done.</echo>
     </target>
 </project>
