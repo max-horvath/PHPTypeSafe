@@ -135,6 +135,7 @@
                        -pp on
                        -dc PHP
                        -s on
+                       -q on
                        -t ../../../${build.apidoc.dir}
                        -o HTML:frames:default
                        -d ." />
@@ -152,6 +153,7 @@
                        -pp on
                        -dc PHP
                        -s on
+                       -q on
                        -t ../../../${build.apidoc.dir}
                        -tb ../../../${lib.phpuc.phpdoc.dir}
                        -o HTML:Phpuc:phpuc
