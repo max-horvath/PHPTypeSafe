@@ -55,7 +55,7 @@ $stub = '<?php ' .
         "Phar::mapPhar('$filename'); " .
         'require_once ' .
         "'phar://$filename/com/maxhorvath/phptypesafe/PHPTypeSafe.php'; " .
-        'PHPTypeSafe::setUp(); ' .
+        'com::maxhorvath::phptypesafe::PHPTypeSafe::setUp(); ' .
         '__HALT_COMPILER();';
 
 $phar->setStub($stub);
