@@ -56,6 +56,18 @@ require_once 'com.maxhorvath.phptypesafe.phar';
  */
 class Foo
 {
+    /**
+     * Test method with two scalar type hint types.
+     *
+     * @param  string $msg     Message to return.
+     * @param  int    $counter Counter to reflect run of method.
+     *
+     * @return string
+     *
+     * @static
+     * @access public
+     * @since  Method available since release 1.0.0
+     */
     public static function bar(string $msg, int $counter)
     {
         echo $counter . '. run: ' . $msg . "\n\n";
