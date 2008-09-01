@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  PHPTypeSafe
+
+  Copyright (C) 2008  Max Horvath <info@maxhorvath.com>.
+
+  This file is part of PHPTypeSafe.
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU Lesser General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+  SVN: $Id$
+-->
+
+<project name="PHPTypeSafe example" default="run" basedir=".">
+    <property name="example.name" value="SimpleExample.php" />
+    <property name="package.name" value="com.maxhorvath.phptypesafe" />
+    <property name="base.dir" value ="../../../../../../" />
+    <property name="base.target.dir" value ="${base.dir}/bin" />
+
+    <target name="clean" description="Cleaning folder ...">
+        <echo>Cleaning folder ...</echo>
+
+        <delete file="${package.name}.phar" failonerror="false" quiet="true" />
+
+        <echo>Done.</echo>
+    </target>
+
+    <target name="build" depends="clean" description="Compiling sources ...">
+        <echo>Compiling sources ...</echo>
+
+        <ant antfile="build.xml" target="build" dir="${base.dir}" />
+        <copy file="${base.target.dir}/${package.name}.phar" todir="." />
+
+        <echo>Done.</echo>
+    </target>
+
+    <target name="run" depends="build" description="Running example ...">
+        <echo>Running example ...</echo>
+
+        <exec executable="php" failonerror="true">
+            <arg line="SimpleExample.php" />
+        </exec>
+
+        <echo>Done.</echo>
+    </target>
+</project>

@@ -26,6 +26,7 @@
 <project name="PHPTypeSafe" default="build" basedir=".">
     <property name="package.name" value="com.maxhorvath.phptypesafe" />
     <property name="base.src.dir" value ="src/main/php" />
+    <property name="base.src.examples.dir" value ="src/examples/php/com/maxhorvath/phptypesafe" />
     <property name="base.src.test.dir" value ="src/test/php/com/maxhorvath/phptypesafe" />
     <property name="build.dir" value="build" />
     <property name="build.apidoc.dir" value="${build.dir}/api" />
@@ -202,15 +203,18 @@
 
         <tar destfile="${target.dist.dir}/${package.name}.tar.gz" longfile="gnu" compression="gzip">
             <tarfileset dir="${target.dir}">
-                <include name="${package.name}.phar"/>
+                <include name="${package.name}.phar" />
+            </tarfileset>
+            <tarfileset dir="${base.src.examples.dir}">
+                <include name="SimpleExample.php" />
             </tarfileset>
             <tarfileset dir=".">
-                <include name="CHANGELOG"/>
-                <include name="COPYING"/>
-                <include name="COPYING.LESSER"/>
-                <include name="CREDITS"/>
-                <include name="LICENSE"/>
-                <include name="REQUIREMENTS"/>
+                <include name="CHANGELOG" />
+                <include name="COPYING" />
+                <include name="COPYING.LESSER" />
+                <include name="CREDITS" />
+                <include name="LICENSE" />
+                <include name="REQUIREMENTS" />
             </tarfileset>
         </tar>
 
