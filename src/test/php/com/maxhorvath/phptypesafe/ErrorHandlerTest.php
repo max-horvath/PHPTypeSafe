@@ -21,11 +21,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category   PHP
- * @package    com::maxhorvath::phptypesafe
+ * @package    com\maxhorvath\phptypesafe
+ * @subpackage test
  * @author     Max Horvath <info@maxhorvath.com>
  * @copyright  2008 Max Horvath <info@maxhorvath.com>
  * @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU Lesser General Public Licence Version 3
- * @version    SVN: $Id$
+ * @version    SVN: $Id: ErrorHandlerTest.php 21 2008-08-27 07:31:51Z mhorvath $
  * @link       http://www.maxhorvath.com/
  * @since      File available since release 1.0.0
  */
@@ -33,20 +34,20 @@
 /**
  * Define namespace
  */
-namespace com::maxhorvath::phptypesafe;
+namespace com\maxhorvath\phptypesafe;
 
 /**
  * Include required files.
  */
 require_once 'PHPUnit/Framework/TestCase.php';
-require_once '../../../../../main/php/com/maxhorvath/phptypesafe/ErrorHandler.php';
+require_once '../../../../../main/php/com/maxhorvath/phptypesafe/PHPTypeSafe.php';
 
 /**
  * Test class for ErrorHandlerTest to test type hint failures.
  *
  * @final
  * @category   PHP
- * @package    com::maxhorvath::phptypesafe
+ * @package    com\maxhorvath\phptypesafe
  * @subpackage test
  * @author     Max Horvath <info@maxhorvath.com>
  * @copyright  2008 Max Horvath <info@maxhorvath.com>
@@ -82,7 +83,7 @@ final class TypeHintTestClass
  *
  * @final
  * @category   PHP
- * @package    com::maxhorvath::phptypesafe
+ * @package    com\maxhorvath\phptypesafe
  * @subpackage test
  * @author     Max Horvath <info@maxhorvath.com>
  * @copyright  2008 Max Horvath <info@maxhorvath.com>
@@ -101,7 +102,7 @@ final class TypeHintError
  *
  * @final
  * @category   PHP
- * @package    com::maxhorvath::phptypesafe
+ * @package    com\maxhorvath\phptypesafe
  * @subpackage test
  * @author     Max Horvath <info@maxhorvath.com>
  * @copyright  2008 Max Horvath <info@maxhorvath.com>
@@ -133,7 +134,7 @@ final class TestErrorhandler
  * Test case for ErrorHandler.
  *
  * @category   PHP
- * @package    com::maxhorvath::phptypesafe
+ * @package    com\maxhorvath\phptypesafe
  * @subpackage test
  * @author     Max Horvath <info@maxhorvath.com>
  * @copyright  2008 Max Horvath <info@maxhorvath.com>
@@ -142,7 +143,7 @@ final class TestErrorhandler
  * @link       http://www.maxhorvath.com/
  * @since      Class available since release 1.0.0
  */
-class ErrorHandlerTest extends ::PHPUnit_Framework_TestCase
+class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -219,7 +220,7 @@ class ErrorHandlerTest extends ::PHPUnit_Framework_TestCase
     public function testErrorHandlerTriggersOldErrorHandler()
     {
         ErrorHandler::tearDown();
-        set_error_handler(__NAMESPACE__ . '::TestErrorhandler::handleError');
+        set_error_handler(__NAMESPACE__ . '\TestErrorhandler::handleError');
         ErrorHandler::setUp();
 
         if (TestErrorhandler::$handlerCalled) {
@@ -254,13 +255,13 @@ class ErrorHandlerTest extends ::PHPUnit_Framework_TestCase
         TypeHintTestClass::initiateTypeHintError(new TypeHintError());
 
         $_backtrace = debug_backtrace();
-        $_message = 'PHP Catchable fatal error:  Argument 1 passed to com::' .
-                    'maxhorvath::phptypesafe::TypeHintTestClass::' .
-                    'initiateTypeHintError() must be an instance of com::' .
-                    'maxhorvath::phptypesafe::bool, instance of com::' .
-                    'maxhorvath::phptypesafe::TypeHintError given';
+        $_message = 'Catchable fatal error: Argument 1 passed to com\\' .
+                    '\maxhorvath\phptypesafe\TypeHintTestClass::' .
+                    'initiateTypeHintError() must be an instance of com\\' .
+                    'maxhorvath\phptypesafe\boolean, instance of com\\' .
+                    'maxhorvath\phptypesafe\TypeHintError given';
 
-        $_iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($_backtrace));
+        $_iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($_backtrace));
         $_valueFound = false;
 
         foreach ($_iterator as $_element) {

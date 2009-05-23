@@ -20,7 +20,7 @@
   You should have received a copy of the GNU Lesser General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-  SVN: $Id$
+  SVN: $Id: build.xml 27 2008-09-01 10:53:36Z mhorvath $
 -->
 
 <project name="PHPTypeSafe example" default="run" basedir=".">

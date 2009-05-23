@@ -21,11 +21,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category   PHP
- * @package    com::maxhorvath::phptypesafe
+ * @package    com\maxhorvath\phptypesafe
+ * @subpackage test
  * @author     Max Horvath <info@maxhorvath.com>
  * @copyright  2008 Max Horvath <info@maxhorvath.com>
  * @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU Lesser General Public Licence Version 3
- * @version    SVN: $Id$
+ * @version    SVN: $Id: PHPTypeSafeTest.php 22 2008-08-28 15:32:25Z mhorvath $
  * @link       http://www.maxhorvath.com/
  * @since      File available since release 1.0.0
  */
@@ -33,7 +34,7 @@
 /**
  * Define namespace
  */
-namespace com::maxhorvath::phptypesafe;
+namespace com\maxhorvath\phptypesafe;
 
 /**
  * Include required files.
@@ -45,7 +46,7 @@ require_once '../../../../../main/php/com/maxhorvath/phptypesafe/PHPTypeSafe.php
  * Test case for PHPTypeSafe.
  *
  * @category   PHP
- * @package    com::maxhorvath::phptypesafe
+ * @package    com\maxhorvath\phptypesafe
  * @subpackage test
  * @author     Max Horvath <info@maxhorvath.com>
  * @copyright  2008 Max Horvath <info@maxhorvath.com>
@@ -54,7 +55,7 @@ require_once '../../../../../main/php/com/maxhorvath/phptypesafe/PHPTypeSafe.php
  * @link       http://www.maxhorvath.com/
  * @since      Class available since release 1.0.0
  */
-class PHPTypeSafeTest extends ::PHPUnit_Framework_TestCase
+class PHPTypeSafeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Tests if PHPTypeSafe is a singleton.
@@ -98,21 +99,20 @@ class PHPTypeSafeTest extends ::PHPUnit_Framework_TestCase
      */
     public function testIsTypeSafeClassSuccess()
     {
-        $_classes = array(__NAMESPACE__ . '::matcher::Bool',
-                          __NAMESPACE__ . '::matcher::Boolean',
-                          __NAMESPACE__ . '::matcher::Double',
-                          __NAMESPACE__ . '::matcher::Float',
-                          __NAMESPACE__ . '::matcher::Int',
-                          __NAMESPACE__ . '::matcher::Integer',
-                          __NAMESPACE__ . '::matcher::Long',
-                          __NAMESPACE__ . '::matcher::Object',
-                          __NAMESPACE__ . '::matcher::Real',
-                          __NAMESPACE__ . '::matcher::Resource',
-                          __NAMESPACE__ . '::matcher::String',
+        $_classes = array(__NAMESPACE__ . '\matcher\Bool',
+                          __NAMESPACE__ . '\matcher\Boolean',
+                          __NAMESPACE__ . '\matcher\Double',
+                          __NAMESPACE__ . '\matcher\Float',
+                          __NAMESPACE__ . '\matcher\Int',
+                          __NAMESPACE__ . '\matcher\Integer',
+                          __NAMESPACE__ . '\matcher\Long',
+                          __NAMESPACE__ . '\matcher\Real',
+                          __NAMESPACE__ . '\matcher\Resource',
+                          __NAMESPACE__ . '\matcher\String',
                          );
 
         foreach ($_classes as $_element) {
-            $this->assertTrue(PHPTypeSafe::getInstance()->isTypeSafeClass($_element));
+            $this->assertTrue(PHPTypeSafe::getInstance()->isTypeSafeClass($_element), "Failure with $_element");
         }
     }
 
@@ -126,7 +126,7 @@ class PHPTypeSafeTest extends ::PHPUnit_Framework_TestCase
      */
     public function testIsTypeSafeClassDeclineNonExistingClass()
     {
-        $this->assertFalse(PHPTypeSafe::getInstance()->isTypeSafeClass(__NAMESPACE__ . '::matcher::TestClass'));
+        $this->assertFalse(PHPTypeSafe::getInstance()->isTypeSafeClass(__NAMESPACE__ . '\matcher::TestClass'));
     }
 
     /**
@@ -140,7 +140,7 @@ class PHPTypeSafeTest extends ::PHPUnit_Framework_TestCase
      */
     public function testIsTypeSafeClassDeclineNonTypeSafeClass()
     {
-        $this->assertFalse(PHPTypeSafe::getInstance()->isTypeSafeClass(__NAMESPACE__ . '::matcher::IMatcher'));
+        $this->assertFalse(PHPTypeSafe::getInstance()->isTypeSafeClass(__NAMESPACE__ . '\matcher::IMatcher'));
     }
 
     /**
@@ -167,8 +167,6 @@ class PHPTypeSafeTest extends ::PHPUnit_Framework_TestCase
                                 'value' => 123),
                           array('typehint' => 'long',
                                 'value' => 123),
-                          array('typehint' => 'object',
-                                'value' => PHPTypeSafe::getInstance()),
                           array('typehint' => 'real',
                                 'value' => 12.34),
                           array('typehint' => 'resource',
@@ -207,8 +205,6 @@ class PHPTypeSafeTest extends ::PHPUnit_Framework_TestCase
                                 'value' => 'Test'),
                           array('typehint' => 'long',
                                 'value' => 'Test'),
-                          array('typehint' => 'object',
-                                'value' => 123),
                           array('typehint' => 'real',
                                 'value' => 'Test'),
                           array('typehint' => 'resource',

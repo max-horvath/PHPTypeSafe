@@ -21,11 +21,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category   PHP
- * @package    com::maxhorvath::phptypesafe
+ * @package    com\maxhorvath\phptypesafe
  * @author     Max Horvath <info@maxhorvath.com>
  * @copyright  2008 Max Horvath <info@maxhorvath.com>
  * @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU Lesser General Public Licence Version 3
- * @version    SVN: $Id$
+ * @version    SVN: $Id: PHPTypeSafe.php 22 2008-08-28 15:32:25Z mhorvath $
  * @link       http://www.maxhorvath.com/
  * @since      File available since release 1.0.0
  */
@@ -33,7 +33,7 @@
 /**
  * Define namespace
  */
-namespace com::maxhorvath::phptypesafe;
+namespace com\maxhorvath\phptypesafe;
 
 /**
  * Define includes
@@ -46,7 +46,6 @@ require_once 'matcher/Float.php';
 require_once 'matcher/Int.php';
 require_once 'matcher/Integer.php';
 require_once 'matcher/Long.php';
-require_once 'matcher/Object.php';
 require_once 'matcher/Real.php';
 require_once 'matcher/Resource.php';
 require_once 'matcher/String.php';
@@ -54,7 +53,7 @@ require_once 'matcher/String.php';
 /**
  * Define namespace identifier
  */
-use com::maxhorvath::phptypesafe::matcher as Matcher;
+use com\maxhorvath\phptypesafe\matcher as Matcher;
 
 /**
  * Class that handles type hinting errors and checks type hint classes.
@@ -63,7 +62,7 @@ use com::maxhorvath::phptypesafe::matcher as Matcher;
  *
  * @final
  * @category   PHP
- * @package    com::maxhorvath::phptypesafe
+ * @package    com\maxhorvath\phptypesafe
  * @author     Max Horvath <info@maxhorvath.com>
  * @copyright  2008 Max Horvath <info@maxhorvath.com>
  * @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU Lesser General Public Licence Version 3
@@ -122,7 +121,7 @@ final class PHPTypeSafe
      */
     final public function __clone()
     {
-        throw new RuntimeException('You cannot clone PHPTypeSafe (singleton object).');
+        throw new \RuntimeException('You cannot clone PHPTypeSafe (singleton object).');
     }
 
     /**
@@ -172,7 +171,7 @@ final class PHPTypeSafe
      */
     final public function isTypeSafeClass($className)
     {
-        Matcher::String::isTypeSafe($className);
+        Matcher\String::isTypeSafe($className);
 
         $className = strtolower($className);
 
@@ -183,7 +182,7 @@ final class PHPTypeSafe
         $this->_typeSafetyClasses[$className] = false;
 
         if (class_exists($className)) {
-            if (in_array('com::maxhorvath::phptypesafe::matcher::IMatcher', class_implements($className))) {
+            if (in_array('com\maxhorvath\phptypesafe\matcher\IMatcher', class_implements($className))) {
                 $this->_typeSafetyClasses[$className] = true;
             }
         }
@@ -195,15 +194,15 @@ final class PHPTypeSafe
      * Solves a type hint failure, deciding to continue or not.
      *
      * @param string $typeHint The type hint used.
-     * @param mixed $value The value that failed the type hint.
+     * @param mixed  $value The value that failed the type hint.
      *
      * @return bool Whether to continue or not.
      */
     final public function solveTypeHintFailure($typeHint, $value)
     {
-        Matcher::String::isTypeSafe($typeHint);
+        Matcher\String::isTypeSafe($typeHint);
 
-        $typeHint = 'com::maxhorvath::phptypesafe::matcher::' .
+        $typeHint = 'com\maxhorvath\phptypesafe\matcher\\' .
                     strtolower($typeHint);
 
         if ($this->isTypeSafeClass($typeHint)) {

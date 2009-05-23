@@ -21,11 +21,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category   PHP
- * @package    com::maxhorvath::phptypesafe
+ * @package    com\maxhorvath\phptypesafe
  * @author     Max Horvath <info@maxhorvath.com>
  * @copyright  2008 Max Horvath <info@maxhorvath.com>
  * @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU Lesser General Public Licence Version 3
- * @version    SVN: $Id$
+ * @version    SVN: $Id: assembly.php 26 2008-09-01 10:51:41Z mhorvath $
  * @link       http://www.maxhorvath.com/
  * @since      File available since release 1.0.0
  */
@@ -55,7 +55,7 @@ $stub = '<?php ' .
         "Phar::mapPhar('$filename'); " .
         'require_once ' .
         "'phar://$filename/com/maxhorvath/phptypesafe/PHPTypeSafe.php'; " .
-        'com::maxhorvath::phptypesafe::PHPTypeSafe::setUp(); ' .
+        'com\maxhorvath\phptypesafe\PHPTypeSafe::setUp(); ' .
         '__HALT_COMPILER();';
 
 $phar->setStub($stub);

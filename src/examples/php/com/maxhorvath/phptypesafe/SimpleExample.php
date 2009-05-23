@@ -21,12 +21,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category   PHP
- * @package    com::maxhorvath::phptypesafe
+ * @package    com\maxhorvath\phptypesafe
  * @subpackage examples
  * @author     Max Horvath <info@maxhorvath.com>
  * @copyright  2008 Max Horvath <info@maxhorvath.com>
  * @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU Lesser General Public Licence Version 3
- * @version    SVN: $Id$
+ * @version    SVN: $Id: SimpleExample.php 29 2008-09-01 12:32:58Z mhorvath $
  * @link       http://www.maxhorvath.com/
  * @since      File available since release 1.0.0
  */
@@ -34,7 +34,7 @@
 /**
  * Define namespace
  */
-namespace com::maxhorvath::phptypesafe;
+namespace com\maxhorvath\phptypesafe;
 
 /**
  * Define includes
@@ -45,7 +45,7 @@ require_once 'com.maxhorvath.phptypesafe.phar';
  * Test class.
  *
  * @category   PHP
- * @package    com::maxhorvath::phptypesafe
+ * @package    com\maxhorvath\phptypesafe
  * @subpackage examples
  * @author     Max Horvath <info@maxhorvath.com>
  * @copyright  2008 Max Horvath <info@maxhorvath.com>
@@ -70,7 +70,7 @@ class Foo
      */
     public static function bar(string $msg, int $counter)
     {
-        echo $counter . '. run: ' . $msg . "\n\n";
+        echo "$counter. run: $msg\n\n";
     }
 }
 

@@ -21,11 +21,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category   PHP
- * @package    com::maxhorvath::phptypesafe
+ * @package    com\maxhorvath\phptypesafe
+ * @subpackage test
  * @author     Max Horvath <info@maxhorvath.com>
  * @copyright  2008 Max Horvath <info@maxhorvath.com>
  * @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU Lesser General Public Licence Version 3
- * @version    SVN: $Id$
+ * @version    SVN: $Id: ErrorParserTest.php 19 2008-08-26 22:07:35Z mhorvath $
  * @link       http://www.maxhorvath.com/
  * @since      File available since release 1.0.0
  */
@@ -33,19 +34,19 @@
 /**
  * Define namespace
  */
-namespace com::maxhorvath::phptypesafe;
+namespace com\maxhorvath\phptypesafe;
 
 /**
  * Include required files.
  */
 require_once 'PHPUnit/Framework/TestCase.php';
-require_once '../../../../../main/php/com/maxhorvath/phptypesafe/ErrorParser.php';
+require_once '../../../../../main/php/com/maxhorvath/phptypesafe/PHPTypeSafe.php';
 
 /**
  * Test case for ErrorParser.
  *
  * @category   PHP
- * @package    com::maxhorvath::phptypesafe
+ * @package    com\maxhorvath\phptypesafe
  * @subpackage test
  * @author     Max Horvath <info@maxhorvath.com>
  * @copyright  2008 Max Horvath <info@maxhorvath.com>
@@ -54,7 +55,7 @@ require_once '../../../../../main/php/com/maxhorvath/phptypesafe/ErrorParser.php
  * @link       http://www.maxhorvath.com/
  * @since      Class available since release 1.0.0
  */
-class ErrorParserTest extends ::PHPUnit_Framework_TestCase
+class ErrorParserTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Tests if analyzeMethod doesn't touch function names.
@@ -94,8 +95,8 @@ class ErrorParserTest extends ::PHPUnit_Framework_TestCase
      */
     public function testAnalyzeMethodSeperatesFromNameSpaces()
     {
-        $this->assertEquals(array('class' => 'TestNamespace::TestClass', 'function' => 'testMethod'),
-                            ErrorParser::analyzeMethod('TestNamespace::TestClass::testMethod'));
+        $this->assertEquals(array('class' => 'TestNamespace\TestClass', 'function' => 'testMethod'),
+                            ErrorParser::analyzeMethod('TestNamespace\TestClass::testMethod'));
     }
 
     /**
@@ -121,7 +122,7 @@ class ErrorParserTest extends ::PHPUnit_Framework_TestCase
      */
     public function testAnalyzeTypeHintSeperatesFromNamespaces()
     {
-        $this->assertEquals('TestClass', ErrorParser::analyzeTypeHint('TestNamespace::TestClass'));
+        $this->assertEquals('TestClass', ErrorParser::analyzeTypeHint('TestNamespace\TestClass'));
     }
 
     /**
@@ -160,12 +161,12 @@ class ErrorParserTest extends ::PHPUnit_Framework_TestCase
      */
     public function testAnalyzeErrorMessageExtractsFromPrivateNamespace()
     {
-        $_message = 'Argument 1 passed to TestNamespace::TestClass::testMethod() must be an ' .
-                    'instance of TestNamespace::bool, ' .
+        $_message = 'Argument 1 passed to TestNamespace\TestClass::testMethod() must be an ' .
+                    'instance of TestNamespace\bool, ' .
                     'string given';
 
         $_expected = array('argnum'   => 1,
-                           'class'    => 'TestNamespace::TestClass',
+                           'class'    => 'TestNamespace\TestClass',
                            'function' => 'testMethod',
                            'typehint' => 'bool',
                            'given'    => 'string',
@@ -207,9 +208,9 @@ class ErrorParserTest extends ::PHPUnit_Framework_TestCase
      */
     public function testAnalyzeErrorMessageExtractsClassFromPrivateNamespace()
     {
-        $_message = 'Argument 1 passed to TestNamespace::TestClass::testMethod() must be an ' .
-                    'instance of TestNamespace::bool, ' .
-                    'instance of TestNamespace::ErrorTestClass given';
+        $_message = 'Argument 1 passed to TestNamespace\TestClass::testMethod() must be an ' .
+                    'instance of TestNamespace\bool, ' .
+                    'instance of TestNamespace\ErrorTestClass given';
 
         $_expected = null;
 
@@ -226,12 +227,12 @@ class ErrorParserTest extends ::PHPUnit_Framework_TestCase
      */
     public function testParseErrorMessageSafesMessageInArray()
     {
-        $_message = 'Argument 1 passed to Cache::TestNamespace::TestClass::testMethod() must be an ' .
-                    'instance of TestNamespace::bool, ' .
+        $_message = 'Argument 1 passed to Cache\TestNamespace\TestClass::testMethod() must be an ' .
+                    'instance of TestNamespace\bool, ' .
                     'string given';
 
         $_expected = array('argnum'   => 1,
-                           'class'    => 'Cache::TestNamespace::TestClass',
+                           'class'    => 'Cache\TestNamespace\TestClass',
                            'function' => 'testMethod',
                            'typehint' => 'bool',
                            'given'    => 'string',
@@ -239,7 +240,7 @@ class ErrorParserTest extends ::PHPUnit_Framework_TestCase
 
         ErrorParser::parseErrorMessage($_message);
 
-        $_actual = $this->readAttribute('com::maxhorvath::phptypesafe::ErrorParser', '_parsedErrors');
+        $_actual = $this->readAttribute('com\maxhorvath\phptypesafe\ErrorParser', '_parsedErrors');
 
         $this->assertEquals($_expected, $_actual[$_message]);
     }
@@ -254,23 +255,23 @@ class ErrorParserTest extends ::PHPUnit_Framework_TestCase
      */
     public function testParseErrorMessageCachesMessageInArray()
     {
-        $_message = 'Argument 1 passed to Cache::TestNamespace::TestClass::testMethod() must be an ' .
-                    'instance of TestNamespace::bool, ' .
+        $_message = 'Argument 1 passed to Cache\TestNamespace\TestClass::testMethod() must be an ' .
+                    'instance of TestNamespace\bool, ' .
                     'string given';
 
         $_expected = array('argnum'   => 1,
-                           'class'    => 'Cache::TestNamespace::TestClass',
+                           'class'    => 'Cache\TestNamespace\TestClass',
                            'function' => 'testMethod',
                            'typehint' => 'bool',
                            'given'    => 'string',
                           );
 
-        $_errorParser = $this->getMock('com::maxhorvath::phptypesafe::ErrorParser', array('analyzeErrorMessage'));
+        $_errorParser = $this->getMock('com\maxhorvath\phptypesafe\ErrorParser', array('analyzeErrorMessage'));
         $_errorParser->expects($this->never())->method('analyzeErrorMessage');
 
         $_errorParser->parseErrorMessage($_message);
 
-        $_actual = $this->readAttribute('com::maxhorvath::phptypesafe::ErrorParser', '_parsedErrors');
+        $_actual = $this->readAttribute('com\maxhorvath\phptypesafe\ErrorParser', '_parsedErrors');
 
         $this->assertEquals($_expected, $_actual[$_message]);
     }

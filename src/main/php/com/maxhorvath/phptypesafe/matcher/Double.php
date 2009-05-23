@@ -21,11 +21,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category   PHP
- * @package    com::maxhorvath::phptypesafe::matcher
+ * @package    com\maxhorvath\phptypesafe\matcher
  * @author     Max Horvath <info@maxhorvath.com>
  * @copyright  2008 Max Horvath <info@maxhorvath.com>
  * @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU Lesser General Public Licence Version 3
- * @version    SVN: $Id$
+ * @version    SVN: $Id: Double.php 22 2008-08-28 15:32:25Z mhorvath $
  * @link       http://www.maxhorvath.com/
  * @since      File available since release 1.0.0
  */
@@ -33,7 +33,7 @@
 /**
  * Define namespace
  */
-namespace com::maxhorvath::phptypesafe::matcher;
+namespace com\maxhorvath\phptypesafe\matcher;
 
 require_once 'IMatcher.php';
 require_once 'Float.php';
@@ -45,7 +45,7 @@ require_once 'Float.php';
  *
  * @final
  * @category   PHP
- * @package    com::maxhorvath::phptypesafe::matcher
+ * @package    com\maxhorvath\phptypesafe\matcher
  * @author     Max Horvath <info@maxhorvath.com>
  * @copyright  2008 Max Horvath <info@maxhorvath.com>
  * @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU Lesser General Public Licence Version 3

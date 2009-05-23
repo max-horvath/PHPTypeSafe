@@ -1,9 +1,5 @@
-#Sat Aug 23 23:01:35 GMT+01:00 2008
+#Fri May 22 17:13:24 CEST 2009
 eclipse.preferences.version=1
-org.eclipse.php.core.phpForamtterIndentationSize=4
-org.eclipse.php.core.phpForamtterUseTabs=false
-org.eclipse.php.core.taskCaseSensitive=enabled
-org.eclipse.php.core.taskPriorities=NORMAL
-org.eclipse.php.core.taskTags=@todo
-phpVersion=php5
+include_path=0;/PHPTypeSafe\u00050;/PHPTypeSafe/src/main/php/com/maxhorvath/phptypesafe\u00050;/PHPTypeSafe/src/main/php/com/maxhorvath/phptypesafe/matcher\u00050;/PHPTypeSafe/src/test/php/com/maxhorvath/phptypesafe\u00050;/PHPTypeSafe/src/test/php/com/maxhorvath/phptypesafe/matcher\u00055;com.zend.php.phpunit.CONTAINER
+phpVersion=php5.3
 use_asp_tags_as_php=false

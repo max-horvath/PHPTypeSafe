@@ -21,11 +21,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category   PHP
- * @package    com::maxhorvath::phptypesafe
+ * @package    com\maxhorvath\phptypesafe
  * @author     Max Horvath <info@maxhorvath.com>
  * @copyright  2008 Max Horvath <info@maxhorvath.com>
  * @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU Lesser General Public Licence Version 3
- * @version    SVN: $Id$
+ * @version    SVN: $Id: ErrorParser.php 19 2008-08-26 22:07:35Z mhorvath $
  * @link       http://www.maxhorvath.com/
  * @since      File available since release 1.0.0
  */
@@ -33,18 +33,18 @@
 /**
  * Define namespace
  */
-namespace com::maxhorvath::phptypesafe;
+namespace com\maxhorvath\phptypesafe;
 
 /**
  * Define namespace identifier
  */
-use com::maxhorvath::phptypesafe::matcher as Matcher;
+use com\maxhorvath\phptypesafe\matcher as Matcher;
 
 /**
  * Class handles parsing of PHP error messages.
  *
  * @category   PHP
- * @package    com::maxhorvath::phptypesafe
+ * @package    com\maxhorvath\phptypesafe
  * @author     Max Horvath <info@maxhorvath.com>
  * @copyright  2008 Max Horvath <info@maxhorvath.com>
  * @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU Lesser General Public Licence Version 3
@@ -78,7 +78,7 @@ class ErrorParser
      */
     public static function analyzeMethod($methodName)
     {
-        Matcher::String::isTypeSafe($methodName);
+        Matcher\String::isTypeSafe($methodName);
 
         $_result = array('class' => null,
                          'function' => $methodName
@@ -108,14 +108,14 @@ class ErrorParser
      */
     public static function analyzeTypeHint($typeHint)
     {
-        Matcher::String::isTypeSafe($typeHint);
+        Matcher\String::isTypeSafe($typeHint);
 
         $_result = $typeHint;
 
-        $_delimterPosition = strrpos($typeHint, "::");
+        $_delimterPosition = strrpos($typeHint, "\\");
 
         if ($_delimterPosition !== false) {
-            $_result = substr($typeHint, $_delimterPosition + 2);
+            $_result = substr($typeHint, $_delimterPosition + 1);
         }
 
         return $_result;
@@ -134,16 +134,16 @@ class ErrorParser
      */
     public static function analyzeErrorMessage($errorMessage)
     {
-        Matcher::String::isTypeSafe($errorMessage);
+        Matcher\String::isTypeSafe($errorMessage);
 
-        $_matcher = '/^Argument ([0-9]+) passed to ([a-zA-Z0-9_:]+)\(\) ' .
-                    'must be an instance of ([a-zA-Z0-9_:]+), ' .
-                    '([a-zA-Z0-9_:]+) given/';
+        $_matcher = '/^Argument ([0-9]+) passed to ([a-zA-Z0-9_:\\\\]+)\(\) ' .
+                    'must be an instance of ([a-zA-Z0-9_:\\\\]+), ' .
+                    '(instance of )*([a-zA-Z0-9_:\\\\]+) given/';
 
         $_result = null;
         $_match = null;
 
-        if (preg_match($_matcher, $errorMessage, $_match)) {
+        if (preg_match($_matcher, $errorMessage, $_match) && ($_match[4] != 'instance of ')) {
             $_methodMatcher = self::analyzeMethod($_match[2]);
             $_typeHintMatcher = self::analyzeTypeHint($_match[3]);
 
@@ -151,7 +151,7 @@ class ErrorParser
                              'class'    => $_methodMatcher['class'],
                              'function' => $_methodMatcher['function'],
                              'typehint' => $_typeHintMatcher,
-                             'given'    => $_match[4],
+                             'given'    => $_match[5],
                             );
         }
 
@@ -171,7 +171,7 @@ class ErrorParser
      */
     public static function parseErrorMessage($errorMessage)
     {
-        Matcher::String::isTypeSafe($errorMessage);
+        Matcher\String::isTypeSafe($errorMessage);
 
         if (isset(self::$_parsedErrors[$errorMessage])) {
             return self::$_parsedErrors[$errorMessage];

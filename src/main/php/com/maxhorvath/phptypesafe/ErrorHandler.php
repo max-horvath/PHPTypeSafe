@@ -21,11 +21,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category   PHP
- * @package    com::maxhorvath::phptypesafe
+ * @package    com\maxhorvath\phptypesafe
  * @author     Max Horvath <info@maxhorvath.com>
  * @copyright  2008 Max Horvath <info@maxhorvath.com>
  * @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU Lesser General Public Licence Version 3
- * @version    SVN: $Id$
+ * @version    SVN: $Id: ErrorHandler.php 19 2008-08-26 22:07:35Z mhorvath $
  * @link       http://www.maxhorvath.com/
  * @since      File available since release 1.0.0
  */
@@ -33,7 +33,7 @@
 /**
  * Define namespace
  */
-namespace com::maxhorvath::phptypesafe;
+namespace com\maxhorvath\phptypesafe;
 
 /**
  * Define includes
@@ -43,7 +43,7 @@ require_once 'ErrorParser.php';
 /**
  * Define namespace identifier
  */
-use com::maxhorvath::phptypesafe::matcher as Matcher;
+use com\maxhorvath\phptypesafe\matcher as Matcher;
 
 /**
  * Class registers itself as a PHP Error Handler and proceeds to check all
@@ -51,7 +51,7 @@ use com::maxhorvath::phptypesafe::matcher as Matcher;
  *
  * @abstract
  * @category   PHP
- * @package    com::maxhorvath::phptypesafe
+ * @package    com\maxhorvath\phptypesafe
  * @author     Max Horvath <info@maxhorvath.com>
  * @copyright  2008 Max Horvath <info@maxhorvath.com>
  * @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU Lesser General Public Licence Version 3
@@ -92,7 +92,7 @@ abstract class ErrorHandler
      */
     public static function setUp()
     {
-        self::$oldErrorHandler = set_error_handler(__NAMESPACE__ . '::ErrorHandler::analyzeError');
+        self::$oldErrorHandler = set_error_handler(__NAMESPACE__ . '\ErrorHandler::analyzeError');
 
         return self::$oldErrorHandler;
     }
@@ -130,10 +130,10 @@ abstract class ErrorHandler
      */
     public static function analyzeError($code, $message, $file = '', $line = 0, array $context = array())
     {
-        Matcher::Int::isTypeSafe($code);
-        Matcher::String::isTypeSafe($message);
-        Matcher::String::isTypeSafe($file);
-        Matcher::Int::isTypeSafe($line);
+        Matcher\Int::isTypeSafe($code);
+        Matcher\String::isTypeSafe($message);
+        Matcher\String::isTypeSafe($file);
+        Matcher\Int::isTypeSafe($line);
 
         if ($code == E_RECOVERABLE_ERROR) {
             $_parsedError = ErrorParser::parseErrorMessage($message);
@@ -145,20 +145,22 @@ abstract class ErrorHandler
                 if (PHPTypeSafe::getInstance()->solveTypeHintFailure($_parsedError['typehint'], $_value)) {
                     return;
                 } else {
-                    $_typeHint = 'com::maxhorvath::phptypesafe::matcher::' .
+                    $_typeHint = 'com\maxhorvath\phptypesafe\matcher\\' .
                                  strtolower($_parsedError['typehint']);
 
                     $_details = ErrorParser::analyzeErrorMessage($message);
 
                     if (PHPTypeSafe::getInstance()->isTypeSafeClass($_typeHint)) {
-                        throw new ErrorException('Argument ' . $_details['argnum'] . ' ' .
-                                                 'passed to ' .
-                                                 $_details['class'] . '::' . $_details['function'] . ' ' .
-                                                 'must be of type ' . $_details['typehint'] . ', ' .
-                                                 $_details['given'] . ' given, ' .
-                                                 'called in ' . $file . ' ' .
-                                                 'on line ' . $line,
-                                                 $code, E_RECOVERABLE_ERROR, $file, $line);
+                        throw new \ErrorException('Argument ' . $_details['argnum'] . ' ' .
+                                                  'passed to ' .
+                                                  $_details['class'] .
+                                                  ($_details['class'] != '' ? '::' : '') .
+                                                  $_details['function'] . '() ' .
+                                                  'must be of type ' . $_details['typehint'] . ', ' .
+                                                  $_details['given'] . ' given, ' .
+                                                  'called in ' . $file . ' ' .
+                                                  'on line ' . $line,
+                                                  $code, E_RECOVERABLE_ERROR, $file, $line);
                     }
                 }
             // @codeCoverageIgnoreStart

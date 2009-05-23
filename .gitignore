@@ -1,3 +1,7 @@
 .cache
+.settings/com.zend.php.javabridge.core.prefs
+.settings/de.loskutov.anyedit.AnyEditTools.prefs
+.settings/org.eclipse.php.core.projectOptions.prefs
 bin
 build
+src/examples/php/com/maxhorvath/phptypesafe/com.maxhorvath.phptypesafe.phar
